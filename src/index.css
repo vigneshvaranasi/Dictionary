@@ -3,11 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color: #0e0e0e;
-    color: #fefefe;
-    font-family: 'Outfit', sans-serif;
+
+body {
+    @apply bg-[#fefefe] dark:bg-[#0e0e0e] text-[#0e0e0e] dark:text-[#fefefe] font-outfit;
 }
+
 ::selection {
     background-color: #f9f9f9;
     color: #0e0e0e;

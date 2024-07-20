@@ -1,0 +1,32 @@
+.loading-bar-container {
+    width: 350px;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 5px;
+    /* background-color: #031255; */
+    /* background-color: #ffb800; */
+    background-color: transparent;
+    
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #343434;
+    /* background-color: #031255;  */
+    animation: loading-animation linear;
+    border-radius: 5px;
+
+    @apply bg-[#343434] dark:bg-[#fefefe];
+
+  }
+  
+  @keyframes loading-animation {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
