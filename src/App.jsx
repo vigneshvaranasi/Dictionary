@@ -17,13 +17,13 @@ function App() {
   }
   return (
     <div className='max-w-md mx-auto'>
-      <h1 className='text-center text-5xl mt-6'>Dictionary</h1>
+      <h1 className='text-center text-[#f1f1f1] text-5xl mt-6'>Dictionary</h1>
 
       {/* Form for getting the word to search */}
-      <form className='mt-10 text-center' onSubmit={handleSubmit(wordSubmit)}>
-        <input className='bg-[#0000] max-w-md border-b-2 focus:border-b-2 outline-none bg-[#000]' autoComplete='off' type="text" {...register('word', { required: true })} placeholder="Enter the word" />
-        <button type="submit" className='ms-2 hover:border-b-2'>Search</button>
-        {errors.word && <span className='text-[#ff0000] font-bold block'>Enter a Word to Search</span>}
+      <form className='mt-10 text-center m-5 ms-0 w-full' onSubmit={handleSubmit(wordSubmit)}>
+        <input className='text-xl w-72 border-b-2 focus:border-b-2 outline-none bg-transparent' autoComplete='off' type="text" {...register('word', { required: true })} placeholder="Enter the word" />
+        <button type="submit" className='ms-2 hover:border-b-2 mt-4'>Search</button>
+        {errors.word && <span className='text-[#ff0000] text-center font-semibold mt-2 block'>Enter a Word to Search</span>}
       </form>
 
       {/* Displaying the word information */}
@@ -37,7 +37,7 @@ function App() {
                 {
                   wordInfo.phonetics[0].audio &&
                   // On clicking the audio icon, the audio will be played
-                  <img src={vol} width={15} alt='volume' className='ms-2 mb-1 inline cursor-pointer' onClick={() => {
+                  <img src={vol} width={22} alt='volume' className='ms-2 mb-1 inline cursor-pointer' onClick={() => {
                     let audio = new Audio(wordInfo.phonetics[0].audio)
                     audio.play()
                   }} />

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +6,7 @@
 body{
     background-color: #0e0e0e;
     color: #fefefe;
+    font-family: 'Outfit', sans-serif;
 }
 ::selection {
     background-color: #f9f9f9;
