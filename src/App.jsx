@@ -4,6 +4,7 @@ import speakerdark from './assets/speaker-dark.png'
 import speakerLight from './assets/speaker-light.png'
 import vol from './assets/volume.png'
 import LoadingBar from './Animations/LoadingBar';
+import './App.css'
 
 
 
@@ -64,7 +65,7 @@ function App() {
       {/* Form for getting the word to search */}
       <form className='mt-10 text-center m-5 ms-0 w-full' onSubmit={handleSubmit(wordSubmit)}>
         <input className='text-xl w-72 border-b-2 focus:border-b-2 outline-none bg-transparent rounded-none' autoComplete='off' type="text" {...register('word', { required: true })} placeholder="Enter the word" />
-        <button type="submit" className='ms-2 hover:border-b-2 mt-4'>Search</button>
+        <button type="submit" className='searchBtn ms-2 hover:border-b-2 mt-4'>Search</button>
         {errors.word && <span className='text-[#ff0000] text-center font-semibold mt-2 block'>Enter a Word to Search</span>}
       </form>
 
@@ -81,7 +82,7 @@ function App() {
                 {
                   wordInfo.phonetics[0].audio &&
                   // On clicking the audio icon, the audio will be played
-                  <img src={vol} width={22} alt='volume' className='ms-2 mb-1 inline cursor-pointer' onClick={() => {
+                  <img src={vol} width={22} alt='speaker' className='ms-2 mb-1 inline cursor-pointer' onClick={() => {
                     let audio = new Audio(wordInfo.phonetics[0].audio)
                     audio.play()
                   }} />
