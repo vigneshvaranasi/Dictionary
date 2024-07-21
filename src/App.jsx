@@ -5,6 +5,7 @@ import speakerLight from './assets/speaker-light.png'
 import vol from './assets/volume.png'
 import LoadingBar from './Animations/LoadingBar';
 import './App.css'
+import './index.css'
 
 
 
@@ -60,7 +61,7 @@ function App() {
   }
   return (
     <div className='max-w-md mx-auto bg-[#fefefe] dark:bg-[#0e0e0e]'>
-      <h1 className='text-center  text-[#000] text-5xl mt-6 dark:text-[#f1f1f1]'>Dictionary</h1>
+      <h1 className='text-center  text-[--text-light] text-5xl mt-6 dark:text-[--text-dark]'>Dictionary</h1>
 
       {/* Form for getting the word to search */}
       <form className='mt-10 text-center m-5 ms-0 w-full' onSubmit={handleSubmit(wordSubmit)}>
@@ -76,7 +77,7 @@ function App() {
       {
         wordInfo &&
         <div>
-          <div className='bg-[#f1f1f1] text-[#000] rounded-md m-5 p-5 text-start dark:bg-[#343434] dark:text-[#f1f1f1]'>
+          <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
             <div className='inline'>
               <h1 className='text-xl font-semibold'>{wordInfo.word}
                 {
@@ -91,17 +92,17 @@ function App() {
             </div>
             {
               wordInfo.phonetics[0].text &&
-              <p className='text-lg text-[#767a8b] font-semibold'>pronunications: {wordInfo.phonetics[0].text}</p>
+              <p className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark]'>pronunications: {wordInfo.phonetics[0].text}</p>
             }
           </div>
           {
             wordInfo.meanings.map((meaning, index) => (
-              <div key={index} className='bg-[#f1f1f1] text-[#000] rounded-md m-5 p-5 text-start dark:bg-[#343434] dark:text-[#f1f1f1]'>
+              <div key={index} className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
                 <h1 className='text-xl font-semibold capitalize'>{meaning.partOfSpeech}</h1>
                 {
                   meaning.definitions.map((def, index) => (
                     <div key={index}>
-                      <li className='text-lg text-[#767a8b] font-semibold dark:text-[#767a8b] '>{def.definition}</li>
+                      <li className='text-lg text-[--secondary-text-light] leading-9 dark:text-[--secondary-text-dark] '>{def.definition}</li>
                     </div>
                   ))
                 }
@@ -112,12 +113,12 @@ function App() {
           {/* Synonyms */}
           {
             synonyms.length > 0 &&
-            <div className='bg-[#f1f1f1] text-[#000] rounded-md m-5 p-5 text-start dark:bg-[#343434] dark:text-[#f1f1f1]'>
+            <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
               <h1 className='text-xl font-semibold'>Synonyms</h1>
               <div className='flex flex-wrap'>
                 {
                   synonyms.map((synonym, index) => (
-                    <p key={index} className='text-lg text-[#767a8b] font-semibold dark:text-[#767a8b] rounded-md m-1'>{synonym}</p>
+                    <p key={index} className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark] rounded-md m-1'>{synonym}{index < synonyms.length - 1 && ','}</p>
                   ))
                 }
               </div>
@@ -127,12 +128,12 @@ function App() {
           {/* Antonyms */}
           {
             antonyms.length > 0 &&
-            <div className='bg-[#f1f1f1] text-[#000] rounded-md m-5 p-5 text-start dark:bg-[#343434] dark:text-[#f1f1f1]'>
+            <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
               <h1 className='text-xl font-semibold'>Antonyms</h1>
               <div className='flex flex-wrap'>
                 {
                   antonyms.map((antonym, index) => (
-                    <p key={index} className='text-lg text-[#767a8b] font-semibold dark:text-[#767a8b] rounded-md m-1'>{antonym}</p>
+                    <p key={index} className='text-lg text-[--secondary-text-light]  dark:text-[--secondary-text-dark] rounded-md m-1'>{antonym}{index < antonyms.length - 1 && ','}</p>
                   ))
                 }
               </div>

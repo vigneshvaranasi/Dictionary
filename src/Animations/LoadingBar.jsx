@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './LoadingBar.css';
 
 function LoadingBar() {
-    const fixedDurationInSeconds = 5; 
+    const fixedDurationInSeconds = 0.4; 
 
     useEffect(() => {
         const timer = setTimeout(() => {

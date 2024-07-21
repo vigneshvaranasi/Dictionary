@@ -3,6 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+    --text-light:#000;
+    --secondary-text-light: #767a8b;
+    --bg-light:#f1f1f1;
+
+    --text-dark:#f1f1f1;
+    /* --secondary-text-dark: #D6EAF3; */
+    /* --secondary-text-dark: #849399; */
+    --secondary-text-dark: #767a8b;
+    --bg-dark:#1F1F1F;
+    /* --bg-dark:#343434; */
+}
 
 body {
     @apply bg-[#fefefe] dark:bg-[#0e0e0e] text-[#0e0e0e] dark:text-[#fefefe] font-outfit;
