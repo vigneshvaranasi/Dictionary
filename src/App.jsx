@@ -1,32 +1,28 @@
-import React, { useState } from 'react'
-import { set, useForm } from 'react-hook-form';
-import speakerdark from './assets/speaker-dark.png'
-import speakerLight from './assets/speaker-light.png'
-import vol from './assets/volume.png'
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import speakerdark from './assets/speaker-dark.png';
+import speakerLight from './assets/speaker-light.png';
+import vol from './assets/volume.png';
 import LoadingBar from './Animations/LoadingBar';
-import './App.css'
-import './index.css'
-
-
+import './App.css';
+import './index.css';
 
 function App() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  let [wordInfo, setWordInfo] = useState('')
-  let [synonyms, setSynonyms] = useState([])
-  let [antonyms, setAntonyms] = useState([])
+  let [wordInfo, setWordInfo] = useState('');
+  let [synonyms, setSynonyms] = useState([]);
+  let [antonyms, setAntonyms] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function wordSubmit(wordData) {
     setLoading(true);
-    console.log(wordData)
     setWordInfo('');
 
     try {
-
-      let res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${wordData.word}`)
-      if (!res.ok) { // Check if response is not OK
+      let res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${wordData.word}`);
+      if (!res.ok) {
         if (res.status === 404) {
           setErrorMessage('Word not found');
         } else {
@@ -34,11 +30,9 @@ function App() {
         }
         setWordInfo('');
         return;
-      }
-      else {
+      } else {
         setErrorMessage('');
-        let data = await res.json()
-        console.log(data[0])
+        let data = await res.json();
         setWordInfo(data[0]);
 
         // Getting the synonyms from the data
@@ -51,14 +45,22 @@ function App() {
         const uniqueAntonyms = [...new Set(antonymsArray)];
         setAntonyms(uniqueAntonyms);
       }
-    }
-    catch (error) {
+    } catch (error) {
       setErrorMessage('An error occurred');
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (wordInfo) {
+      const boxes = document.querySelectorAll('.staggered-box');
+      boxes.forEach((box, index) => {
+        box.style.animationDelay = `${index * 0.1}s`;
+      });
+    }
+  }, [wordInfo, synonyms, antonyms]);
+
   return (
     <div className='max-w-md mx-auto bg-[#fefefe] dark:bg-[#0e0e0e]'>
       <h1 className='text-center  text-[--text-light] text-5xl mt-6 dark:text-[--text-dark]'>Dictionary</h1>
@@ -74,68 +76,50 @@ function App() {
       {errorMessage && <div className='text-center text-[#ff0000] font-semibold mt-4'>{errorMessage}</div>}
 
       {/* Displaying the word information */}
-      {
-        wordInfo &&
+      {wordInfo &&
         <div>
-          <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
+          <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark] staggered-box'>
             <div className='inline'>
               <h1 className='text-xl font-semibold'>{wordInfo.word}
-                {
-                  wordInfo.phonetics[0].audio &&
-                  // On clicking the audio icon, the audio will be played
+                {wordInfo.phonetics[0].audio &&
                   <img src={vol} width={22} alt='speaker' className='ms-2 mb-1 inline cursor-pointer' onClick={() => {
-                    let audio = new Audio(wordInfo.phonetics[0].audio)
-                    audio.play()
+                    let audio = new Audio(wordInfo.phonetics[0].audio);
+                    audio.play();
                   }} />
                 }
               </h1>
             </div>
-            {
-              wordInfo.phonetics[0].text &&
+            {wordInfo.phonetics[0].text &&
               <p className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark]'>pronunications: {wordInfo.phonetics[0].text}</p>
             }
           </div>
-          {
-            wordInfo.meanings.map((meaning, index) => (
-              <div key={index} className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
-                <h1 className='text-xl font-semibold capitalize'>{meaning.partOfSpeech}</h1>
-                {
-                  meaning.definitions.map((def, index) => (
-                    <div key={index}>
-                      <li className='text-lg text-[--secondary-text-light] leading-9 dark:text-[--secondary-text-dark] '>{def.definition}</li>
-                    </div>
-                  ))
-                }
-              </div>
-            ))
-          }
-
-          {/* Synonyms */}
-          {
-            synonyms.length > 0 &&
-            <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
+          {wordInfo.meanings.map((meaning, index) => (
+            <div key={index} className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark] staggered-box'>
+              <h1 className='text-xl font-semibold capitalize'>{meaning.partOfSpeech}</h1>
+              {meaning.definitions.map((def, defIndex) => (
+                <div key={defIndex}>
+                  <li className='text-lg text-[--secondary-text-light] leading-9 dark:text-[--secondary-text-dark]'>{def.definition}</li>
+                </div>
+              ))}
+            </div>
+          ))}
+          {synonyms.length > 0 &&
+            <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark] staggered-box'>
               <h1 className='text-xl font-semibold'>Synonyms</h1>
               <div className='flex flex-wrap'>
-                {
-                  synonyms.map((synonym, index) => (
-                    <p key={index} className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark] rounded-md m-1'>{synonym}{index < synonyms.length - 1 && ','}</p>
-                  ))
-                }
+                {synonyms.map((synonym, index) => (
+                  <p key={index} className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark] rounded-md m-1'>{synonym}{index < synonyms.length - 1 && ','}</p>
+                ))}
               </div>
             </div>
           }
-
-          {/* Antonyms */}
-          {
-            antonyms.length > 0 &&
-            <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark]'>
+          {antonyms.length > 0 &&
+            <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark] staggered-box'>
               <h1 className='text-xl font-semibold'>Antonyms</h1>
               <div className='flex flex-wrap'>
-                {
-                  antonyms.map((antonym, index) => (
-                    <p key={index} className='text-lg text-[--secondary-text-light]  dark:text-[--secondary-text-dark] rounded-md m-1'>{antonym}{index < antonyms.length - 1 && ','}</p>
-                  ))
-                }
+                {antonyms.map((antonym, index) => (
+                  <p key={index} className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark] rounded-md m-1'>{antonym}{index < antonyms.length - 1 && ','}</p>
+                ))}
               </div>
             </div>
           }
@@ -143,9 +127,9 @@ function App() {
       }
 
       {/* Display loading bar */}
-      {loading && <LoadingBar/>}
+      {loading && <LoadingBar />}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

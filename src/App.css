@@ -1,6 +1,24 @@
-.searchBtn:hover{
+.searchBtn:hover {
     transition: 0.1s;
 }
-.searchBtn{
+
+.searchBtn {
     transition: 0.1s;
+}
+
+@keyframes stagger {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.staggered-box {
+    opacity: 0;
+    animation: stagger 0.5s forwards;
 }
