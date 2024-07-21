@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import speakerdark from './assets/speaker-dark.png';
-import speakerLight from './assets/speaker-light.png';
 import vol from './assets/volume.png';
+import speaker from './assets/speaker.svg';
 import LoadingBar from './Animations/LoadingBar';
 import './App.css';
 import './index.css';
@@ -21,16 +20,19 @@ function App() {
     setWordInfo('');
 
     try {
-      let res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${wordData.word}`);
+      const encodedWord = encodeURIComponent(wordData.word);
+      let res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodedWord}`);
       if (!res.ok) {
         if (res.status === 404) {
           setErrorMessage('Word not found');
-        } else {
+        }
+        else {
           setErrorMessage('An error occurred');
         }
         setWordInfo('');
         return;
-      } else {
+      }
+      else {
         setErrorMessage('');
         let data = await res.json();
         setWordInfo(data[0]);
@@ -81,16 +83,16 @@ function App() {
           <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark] staggered-box'>
             <div className='inline'>
               <h1 className='text-xl font-semibold'>{wordInfo.word}
-                {wordInfo.phonetics[0].audio &&
-                  <img src={vol} width={22} alt='speaker' className='ms-2 mb-1 inline cursor-pointer' onClick={() => {
+                {wordInfo.phonetics && wordInfo.phonetics[0] && wordInfo.phonetics[0].audio &&
+                  <img src={speaker} width={25} alt='speaker' className='ms-2 mb-1 inline cursor-pointer dark:text-[#fff]' onClick={() => {
                     let audio = new Audio(wordInfo.phonetics[0].audio);
                     audio.play();
                   }} />
                 }
               </h1>
             </div>
-            {wordInfo.phonetics[0].text &&
-              <p className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark]'>pronunications: {wordInfo.phonetics[0].text}</p>
+            {wordInfo.phonetics && wordInfo.phonetics[0] && wordInfo.phonetics[0].text &&
+              <p className='text-lg text-[--secondary-text-light] dark:text-[--secondary-text-dark]'>pronunciation: {wordInfo.phonetics[0].text}</p>
             }
           </div>
           {wordInfo.meanings.map((meaning, index) => (

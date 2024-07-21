@@ -6,7 +6,7 @@ function LoadingBar() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            console.log('Animation completed');
+            // console.log('Animation completed');
         }, fixedDurationInSeconds * 1000);
 
         return () => clearTimeout(timer);
