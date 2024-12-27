@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import vol from './assets/volume.png';
 import speaker from './assets/speaker.svg';
 import LoadingBar from './Animations/LoadingBar';
+import darkSpeaker from './assets/speaker-dark.svg';
+import lightSpeaker from './assets/speaker-light.svg';
 import './App.css';
 import './index.css';
 
@@ -14,6 +16,18 @@ function App() {
   let [antonyms, setAntonyms] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Get the system theme and set the theme accordingly
+  useEffect(() => {
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    console.log('systemTheme: ', systemTheme);
+    setIsDarkMode(systemTheme);
+  }, []);
+  
+  useEffect(()=>{
+    console.log(isDarkMode);
+  })
 
   async function wordSubmit(wordData) {
     setLoading(true);
@@ -83,8 +97,14 @@ function App() {
           <div className='bg-[--bg-light] text-[--text-light] rounded-md m-5 p-5 text-start dark:bg-[--bg-dark] dark:text-[--text-dark] staggered-box'>
             <div className='inline'>
               <h1 className='text-xl font-semibold'>{wordInfo.word}
-                {wordInfo.phonetics && wordInfo.phonetics[0] && wordInfo.phonetics[0].audio &&
-                  <img src={speaker} width={25} alt='speaker' className='ms-2 mb-1 inline cursor-pointer dark:text-[#fff]' onClick={() => {
+                {wordInfo.phonetics && wordInfo.phonetics[0] && wordInfo.phonetics[0].audio && !isDarkMode &&
+                  <img src={lightSpeaker} width={25} alt='speaker' className='ms-2 mb-1 inline cursor-pointer dark:text-[#fff]' onClick={() => {
+                    let audio = new Audio(wordInfo.phonetics[0].audio);
+                    audio.play();
+                  }} />
+                }
+                {wordInfo.phonetics && wordInfo.phonetics[0] && wordInfo.phonetics[0].audio && isDarkMode &&
+                  <img src={darkSpeaker} width={25} alt='speaker' className='ms-2 mb-1 inline cursor-pointer dark:text-[#fff]' onClick={() => {
                     let audio = new Audio(wordInfo.phonetics[0].audio);
                     audio.play();
                   }} />
